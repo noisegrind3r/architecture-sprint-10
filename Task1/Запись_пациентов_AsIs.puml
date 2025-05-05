@@ -1,0 +1,26 @@
+@startuml
+title Medicamente Запись пациента Data Flow Diagrams
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+
+Person(patient, "Пациент", "Пациент подающий запись")
+Person(receptionist, "Ресепшен", "Специалист ресепшена")
+Person(doctor, "Медицинский специалист", "Врач, который ведет прием")
+
+System(fillData, "Заполняет заявку на прием", "Оставляет персональные данные (PII)")
+System(journalDoctor, "Хранилище записей пациентов", "Хранит информацию о записях к специалисту")
+System(journalPatient, "Хранилище списка пациентов", "Хранит информацию о списке пациентов")
+System(dataPatient, "Хранилище файлов пациентов", "Хранит информацию о файлах пациентов")
+
+Rel(patient, fillData, "Заполняет личные данные")
+Rel(fillData, receptionist, "Обрабатывает заявку на прием")
+Rel(receptionist, journalDoctor, "Сохраняет данные о записях")
+Rel(receptionist, journalPatient, "Сохраняет информацию о пациенте")
+Rel(receptionist, dataPatient, "Сохраняет файлы пациента")
+
+Rel(doctor, journalDoctor, "Читает и редактирует записи")
+Rel(doctor, dataPatient, "Читает и редактирует данные пациента")
+
+@enduml
