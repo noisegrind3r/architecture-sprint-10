@@ -1,0 +1,18 @@
+@startuml
+title Medicamente Учет ТМЦ Data Flow Diagrams
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+
+Person(warehouseKeeper, "Сотрудник склада", "Сотрудник склада, ведущий приме ТМЦ")
+Person(accountant, "Бухгалтер", "Бухгалтер, обрабатывающий платежную информацию")
+
+System(warehouseData, "Хранилище информации о ТМЦ", "Хранит информацию о ТМЦ")
+System(paymentData, "Хранилище информации о платежах", "Хранит информацию о платежах")
+
+Rel(warehouseKeeper, warehouseData, "Ведет учет ТМЦ")
+Rel(warehouseData, paymentData, "Передает информацию о платежах")
+Rel(accountant, paymentData, "Обрабатывает платежную информацию о ТМЦ")
+
+@enduml

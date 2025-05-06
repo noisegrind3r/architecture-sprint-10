@@ -1,0 +1,24 @@
+@startuml
+title Medicamente Лабораторные анализы_AsIs Data Flow Diagrams
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+
+Person(patient, "Пациент", "Пациент оставляющий анализ")
+Person(labourer, "Специалист лаборатории", "Медицинский специалист лаборатории")
+Person(doctor, "Медицинский специалист", "Врач, который ведет прием")
+
+System(passAnalyses, "Сдача анализа", "Оставляет анализы")
+System(dataAnalyses, "Хранилище анализов", "Хранит информацию об анализах пациентов", "Шифрование данных; Тэг PHI")
+System(dataLake, "Хранилище данных для аналитики", "Хранит обезличенные данные")
+
+Rel(patient, passAnalyses, "Оставляет анализы")
+Rel(passAnalyses, labourer, "Проводит анализ")
+Rel(labourer, dataAnalyses, "Сохраняет данные об анализах", "RBAC")
+Rel(doctor, dataAnalyses, "Обрабатывает результаты анализов", "RBAC")
+Rel(doctor, patient, "Передает результаты анализов")
+
+Rel(dataAnalyses, dataLake, "Автоматически передает данные", "Шифрование (TLS 1.2)" )
+
+@enduml

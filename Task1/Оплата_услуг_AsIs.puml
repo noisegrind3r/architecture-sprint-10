@@ -1,0 +1,22 @@
+@startuml
+title Medicamente Оплата услуг Data Flow Diagrams
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+
+Person(patient, "Пациент", "Пациент оплачивающий услуги")
+Person(cashier, "Кассир", "Кассир, принимающий оплату")
+Person(accountant, "Бухгалтер", "Бухгалтер, обрабатывающий платеж")
+
+System(payment, "Оплата услуг", "Оставляет платежные данные")
+System(kkm, "ККМ", "Процесс проведения платежа")
+System(paymentData, "Хранилище информации о платежах", "Хранит информацию о платежах")
+
+Rel(patient, payment, "Вносит оплату")
+Rel(payment, cashier, "Принимает оплату")
+Rel(cashier, kkm, "Проводит процесс оплаты")
+Rel(kkm, paymentData, "Сохраняет информацию о платеже")
+Rel(accountant, paymentData, "Обрабатывает платежи")
+
+@enduml

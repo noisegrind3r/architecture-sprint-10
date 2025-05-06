@@ -1,0 +1,31 @@
+@startuml
+title Medicamente Запись пациента Data Flow Diagrams
+
+top to bottom direction
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Context.puml
+
+Person(patient, "Пациент", "Пациент подающий запись")
+Person(receptionist, "Ресепшен", "Специалист ресепшена")
+Person(doctor, "Медицинский специалист", "Врач, который ведет прием")
+
+System(fillData, "Заполняет заявку на прием", "Оставляет персональные данные (PII)")
+System(journalDoctor, "Хранилище записей пациентов", "Хранит информацию о записях к специалисту", "Шифрование данных; Тэг PII")
+System(journalPatient, "Хранилище списка пациентов", "Хранит информацию о списке пациентов", "Шифрование данных; Тэг PHI")
+System(dataPatient, "Хранилище файлов пациентов", "Хранит информацию о файлах пациентов", "Шифрование данных; Тэг PHI")
+System(dataLake, "Хранилище данных для аналитики", "Хранит обезличенные данные")
+
+Rel(patient, fillData, "Заполняет личные данные")
+Rel(fillData, journalPatient, "Автоматически передает данные", "Шифрование (TLS 1.2)")
+Rel(fillData, journalDoctor, "Автоматически передает данные", "Шифрование (TLS 1.2)")
+Rel(fillData, dataPatient, "Автоматически передает данные", "Шифрование (TLS 1.2)" )
+
+Rel(journalPatient, dataLake, "Автоматически передает данные", "Шифрование (TLS 1.2)" )
+Rel(journalDoctor, dataLake, "Автоматически передает данные", "Шифрование (TLS 1.2)" )
+Rel(dataPatient, dataLake, "Автоматически передает данные", "Шифрование (TLS 1.2)" )
+
+Rel(receptionist, fillData, "Согласовывает заявку", "RBAC")
+Rel(doctor, journalDoctor, "Редактирует данные", "RBAC")
+
+
+@enduml
