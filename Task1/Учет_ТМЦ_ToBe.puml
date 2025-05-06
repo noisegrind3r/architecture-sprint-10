@@ -10,9 +10,12 @@ Person(accountant, "Бухгалтер", "Бухгалтер, обрабатыв
 
 System(warehouseData, "Хранилище информации о ТМЦ", "Хранит информацию о ТМЦ", "Тэг PUB")
 System(paymentData, "Хранилище информации о платежах", "Хранит информацию о платежах", "Шифрование данных; Тэг FIN")
+System(dataLake, "Хранилище данных для аналитики", "Хранит обезличенные данные")
 
 Rel(warehouseKeeper, warehouseData, "Ведет учет ТМЦ")
 Rel(warehouseData, paymentData, "Передает информацию о платежах", "Шифрование (TLS 1.2)")
 Rel(accountant, paymentData, "Обрабатывает платежную информацию о ТМЦ")
+
+Rel(paymentData, dataLake, "Автоматически передает данные", "Шифрование (TLS 1.2)" )
 
 @enduml
